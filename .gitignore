@@ -1,0 +1,6 @@
+__MACOSX
+images/*
+code/*
+*.pyc
+vocabulary.pkl
+tpg.pgm
