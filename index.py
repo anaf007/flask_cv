@@ -16,9 +16,9 @@ app = Flask(__name__)
 
 app.config['IMG'] = 'images'
 
-bp = Blueprint('img',__name__,url_prefix='/img')
-print bp.endpoint
-app.register_blueprint(bp)
+# bp = Blueprint('img',__name__,url_prefix='/img')
+# print bp.endpoint
+# app.register_blueprint(bp)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
@@ -109,7 +109,7 @@ class ImHistograms(db.Model):
 
 
 
-@bp.route("/home/")
+@app.route("/home/")
 def index():
 
     
@@ -127,12 +127,12 @@ def index():
     return render_template('index.html')
 
 
-@bp.route("/ct")
+@app.route("/ct")
 def ct():
     db.create_all()
     return "ct success"
 
-@bp.route("/add_to_index")
+@app.route("/add_to_index")
 def add_to_index():
 
     for i in range(nbr_images)[:1000]:
@@ -152,13 +152,13 @@ def add_to_index():
     return "add_to_index"
 
 
-@bp.route("/printpkl")
+@app.route("/printpkl")
 def printpkl():
     print voc
     return 'pring pkl'
 
 
-@bp.route("/sdata")
+@app.route("/sdata")
 def sdata():
     print Imlist.query.count()
     print Imlist.query.first().filename
@@ -168,7 +168,7 @@ def sdata():
     return 'pring pkl'
 
 
-@bp.route("/simg")
+@app.route("/simg")
 def simg():
     locs, descr = sift.read_features_from_file(featlist[0]) 
     iw = voc.project(descr)
@@ -181,7 +181,7 @@ def simg():
     return "search image"
 
 
-@bp.route("/query")
+@app.route("/query")
 def quer():
     print 'imlist:',imlist[7]
     result = query(imlist[7])[:10]
@@ -234,7 +234,7 @@ allowed_img_lambda = lambda filename: '.' in filename and filename.rsplit('.', 1
 gen_rnd_filename = lambda :"%s%s" %(datetime.datetime.now().strftime('%Y%m%d%H%M%S'), str(random.randrange(1000, 10000)))
 
 # @csrf_protect.exempt		
-@bp.route('/upload',methods=['POST'])
+@app.route('/upload',methods=['POST'])
 def submit_img():
     f = request.files.get('file')
     filename = allowed_img_lambda(f.filename)
