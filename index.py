@@ -250,6 +250,6 @@ def submit_img():
     filename = file_dir+filename
      
     return jsonify({'success':[filename,request.form.get('id')]})
-    return redirect(url_for('.index',filename=filename))
+    # return redirect(url_for('.index',filename=filename))
 		
 
